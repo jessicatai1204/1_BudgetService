@@ -25,7 +25,7 @@ public class BudgetService
         
         if (IsSameYearMonth(start, end))
         {
-            var budget = FindOneMonth(start, budgets);
+            var budget = FindOneMonthBudge(start, budgets);
             if (budget == null)
             {
                 return defaultAmount;
@@ -33,7 +33,7 @@ public class BudgetService
             return getPartialAmountOfMonth(start, end, budget);
         }
 
-        var filterBudgets = FindMultiMonth(start, end, budgets);
+        var filterBudgets = FindMultiMonthBudges(start, end, budgets);
         var result = 0.0;
         foreach (var budget in filterBudgets)
         {
@@ -60,7 +60,7 @@ public class BudgetService
         return start > end;
     }
 
-    private IEnumerable<Budget> FindMultiMonth(DateTime start, DateTime end, List<Budget> budgets)
+    private IEnumerable<Budget> FindMultiMonthBudges(DateTime start, DateTime end, List<Budget> budgets)
     {
         return budgets.Where(x =>
             ParseToDatetimeAtFirstDayOfMonth(x.YearMonth) >= GetFirstDayOfMonth(start) &&
@@ -72,7 +72,7 @@ public class BudgetService
         return new DateTime(start.Year, start.Month, 1);
     }
 
-    private Budget? FindOneMonth(DateTime start, List<Budget> budgets)
+    private Budget? FindOneMonthBudge(DateTime start, List<Budget> budgets)
     {
         return budgets.Find(x => x.YearMonth == DateTimeToString(start));
     }
