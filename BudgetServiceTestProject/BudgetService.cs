@@ -37,14 +37,14 @@ public class BudgetService
         var result = 0.0;
         foreach (var budget in filterBudgets)
         {
-            var budgetDate = ParseYearMonthToDatetimeAtFirstDay(budget.YearMonth);
+            var budgetDate = ParseYearMonthToFirstDayOfMonth(budget.YearMonth);
             if (IsSameYearMonth(budgetDate,start))
             {
-                result += GetPartialAmountOfMonth(start, EndDayOfYearMonth(start), budget);
+                result += GetPartialAmountOfMonth(start, EndDayOfMonth(start), budget);
             }
             else if (IsSameYearMonth(budgetDate,end))
             {
-                result += GetPartialAmountOfMonth(FirstDayOfYearMonth(end), end, budget);
+                result += GetPartialAmountOfMonth(FirstDayOfMonth(end), end, budget);
             }
             else
             {
@@ -55,12 +55,12 @@ public class BudgetService
         return result;
     }
 
-    private static DateTime EndDayOfYearMonth(DateTime start)
+    private static DateTime EndDayOfMonth(DateTime start)
     {
         return new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month));
     }
 
-    private static DateTime FirstDayOfYearMonth(DateTime end)
+    private static DateTime FirstDayOfMonth(DateTime end)
     {
         return new DateTime(end.Year, end.Month, 1);
     }
@@ -73,18 +73,13 @@ public class BudgetService
     private static IEnumerable<Budget> FindMultiMonthBudges(DateTime start, DateTime end, List<Budget> budgets)
     {
         return budgets.Where(x =>
-            ParseYearMonthToDatetimeAtFirstDay(x.YearMonth) >= GetFirstDayOfMonth(start) &&
-            ParseYearMonthToDatetimeAtFirstDay(x.YearMonth) <= GetFirstDayOfMonth(end));
+            ParseYearMonthToFirstDayOfMonth(x.YearMonth) >= FirstDayOfMonth(start) &&
+            ParseYearMonthToFirstDayOfMonth(x.YearMonth) <= FirstDayOfMonth(end));
     }
-
-    private static DateTime GetFirstDayOfMonth(DateTime start)
-    {
-        return new DateTime(start.Year, start.Month, 1);
-    }
-
+    
     private static Budget? FindOneMonthBudge(DateTime start, List<Budget> budgets)
     {
-        return budgets.Find(x => x.YearMonth == ParseDateTimeToYearMonth(start));
+        return budgets.FirstOrDefault(x => x.YearMonth == ParseDateTimeToYearMonth(start));
     }
 
     private static bool IsSameYearMonth(DateTime start, DateTime end)
@@ -95,7 +90,7 @@ public class BudgetService
     private static double GetPartialAmountOfMonth(DateTime start, DateTime end, Budget budget)
     {
         var days = (end - start).TotalDays + 1;
-        var startMonth = ParseYearMonthToDatetimeAtFirstDay(budget.YearMonth);
+        var startMonth = ParseYearMonthToFirstDayOfMonth(budget.YearMonth);
         return budget.Amount / DateTime.DaysInMonth(startMonth.Year, startMonth.Month) * days;
     }
     
@@ -105,7 +100,7 @@ public class BudgetService
         return dateTime.ToString("yyyyMM");
     }
 
-    private static DateTime ParseYearMonthToDatetimeAtFirstDay(string yearMonth)
+    private static DateTime ParseYearMonthToFirstDayOfMonth(string yearMonth)
     {
         return DateTime.ParseExact(yearMonth+"01","yyyyMMdd",CultureInfo.CurrentCulture);
     }
