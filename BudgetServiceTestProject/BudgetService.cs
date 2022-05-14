@@ -15,19 +15,20 @@ public class BudgetService
 
     public double Query(DateTime start, DateTime end)
     {
-        if (start > end)
+        var defaultAmount = 0;
+        if (IsInvalidDateRange(start, end))
         {
-            return 0;
+            return defaultAmount;
         }
 
         var budgets = _repo.GetAll();
         
-        if (IsSameMonth(start, end))
+        if (IsSameYearMonth(start, end))
         {
-            var budget = FindMonth(start, budgets);
+            var budget = FindOneMonth(start, budgets);
             if (budget == null)
             {
-                return 0;
+                return defaultAmount;
             }
             return getPartialAmount(start, end, budget);
         }
@@ -36,7 +37,6 @@ public class BudgetService
         var result = 0.0;
         foreach (var budget in filterBudgets)
         {
-            Console.WriteLine(budget.YearMonth);
             var budgetDate = getBudgetFirstDay(budget);
             if (budgetDate.Year == start.Year && budgetDate.Month == start.Month)
             {
@@ -55,21 +55,29 @@ public class BudgetService
         return result;
     }
 
+    private static bool IsInvalidDateRange(DateTime start, DateTime end)
+    {
+        return start > end;
+    }
+
     private IEnumerable<Budget> FilterMonth(DateTime start, DateTime end, List<Budget> budgets)
     {
-        var filterBudgets = budgets.Where(x =>
-            TransYearMonthToDatetime(x.YearMonth) >= new DateTime(start.Year, start.Month, 1) &&
-            TransYearMonthToDatetime(x.YearMonth) <= new DateTime(end.Year, end.Month, 1));
-        return filterBudgets;
+        return budgets.Where(x =>
+            TransYearMonthToDatetime(x.YearMonth) >= GetFirstDayOfMonth(start) &&
+            TransYearMonthToDatetime(x.YearMonth) <= GetFirstDayOfMonth(end));
     }
 
-    private Budget? FindMonth(DateTime start, List<Budget> budgets)
+    private static DateTime GetFirstDayOfMonth(DateTime start)
     {
-        var budget = budgets.Find(x => x.YearMonth == DateTimeToString(start));
-        return budget;
+        return new DateTime(start.Year, start.Month, 1);
     }
 
-    private static bool IsSameMonth(DateTime start, DateTime end)
+    private Budget? FindOneMonth(DateTime start, List<Budget> budgets)
+    {
+        return budgets.Find(x => x.YearMonth == DateTimeToString(start));
+    }
+
+    private static bool IsSameYearMonth(DateTime start, DateTime end)
     {
         return start.Year == end.Year && start.Month == end.Month;
     }
