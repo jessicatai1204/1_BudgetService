@@ -3993,19 +3993,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Yu-Min\\.nuget\\packages\\": {}
+    "C:\\Users\\jessi\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Yu-Min\\RiderProjects\\1_BudgetService\\BudgetServiceTestProject\\BudgetServiceTestProject.csproj",
+      "projectUniqueName": "D:\\code\\91課程\\1_BudgetService\\BudgetServiceTestProject\\BudgetServiceTestProject.csproj",
       "projectName": "BudgetServiceTestProject",
-      "projectPath": "C:\\Users\\Yu-Min\\RiderProjects\\1_BudgetService\\BudgetServiceTestProject\\BudgetServiceTestProject.csproj",
-      "packagesPath": "C:\\Users\\Yu-Min\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Yu-Min\\RiderProjects\\1_BudgetService\\BudgetServiceTestProject\\obj\\",
+      "projectPath": "D:\\code\\91課程\\1_BudgetService\\BudgetServiceTestProject\\BudgetServiceTestProject.csproj",
+      "packagesPath": "C:\\Users\\jessi\\.nuget\\packages\\",
+      "outputPath": "D:\\code\\91課程\\1_BudgetService\\BudgetServiceTestProject\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Yu-Min\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jessi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

@@ -40,7 +40,7 @@ public class Tests
             }
         });
 
-        var result = _service.Query(new DateTime(2022, 9, 1), new DateTime(2022, 9, 30));
+        var result = _service.Query(new DateTime(2022, 9, 1), new DateTime(2022, 10, 30));
         ShouldBe(0, result);
     }
     
